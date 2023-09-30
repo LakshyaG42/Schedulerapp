@@ -1,0 +1,61 @@
+<!--
+   index.html
+   Author:
+   Author URI: https://
+   Author Github URI: https://www.github.com/
+   Project Repository URI: https://github.com/
+   Description: The main UI for your Chrome Extension
+   License: MIT
+-->
+<!--
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <meta http-equiv = "X-UA-Compatible" content = "ie=edge">
+    <title>UniScheduler</title>
+    <link href = "style.css" rel = "stylesheet" type = "text/css">
+  </head>
+  <body>
+
+    <script src = "scripts.js"></script>
+  </body>
+</html>
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Homework Scheduler</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Homework Scheduler</h1>
+    <form id="event-form">
+        <div class="event">
+            <label for="event-title">Event Title:</label>
+            <input type="text" id="event-title" name="event-title" required>
+        </div>
+        <div class="event">
+            <label for="event-deadline">Deadline:</label>
+            <input type="datetime-local" id="event-deadline" name="event-deadline" required>
+        </div>
+        <div class="event">
+            <label for="event-priority">Priority:</label>
+            <select id="event-priority" name="event-priority" required>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+        </div>
+        <button type="button" id="add-event">Add Event</button>
+        <button type="button" id="submit-events">Submit Events to Calendar</button>
+    </form>
+
+    <div id="event-list">
+        <!-- Event list will be displayed here -->
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

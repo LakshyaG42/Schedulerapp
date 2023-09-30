@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "UniScheduler",
+  "version": "0.1",
+  "author": "Lakshya Gour",
+  "description": "An extension that adds events to your google calendar from a priority to-do list so that you can finish all your items before the deadline",
+  "permissions": [
+    ""
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "browser_action": {
+    "default_icon": "logo.png",
+    "default_popup": "index.html",
+    "default_title": "A tooltip popup description when you hover over the Chrome Extension icon."
+  }
+}
