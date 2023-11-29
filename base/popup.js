@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     const eventList = [];
-
     const eventForm = document.getElementById('event-form');
     const eventTitleInput = document.getElementById('event-title');
     const eventDeadlineInput = document.getElementById('event-deadline');
