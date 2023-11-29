@@ -31,12 +31,61 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     submitEventsButton.addEventListener('click', function () {
-        // Here, you can add code to submit events to Google Calendar API
-        // For now, we'll just display a message
-        alert('Events submitted to Google Calendar.');
-        clearEvents();
-        displayEvents();
+        handleAuthorization();
     });
+
+    function handleAuthorization() {
+        gapi.auth.authorize(
+            {
+                'client_id': '19769659267-tfiqfr1hpu9l1jm4600i6nbimncelgr0.apps.googleusercontent.com',
+                'scope': 'https://www.googleapis.com/auth/calendar',
+                'immediate': false
+            },
+            handleAuthResult
+        );
+    }
+
+    function handleAuthResult(authResult) {
+        if (authResult && !authResult.error) {
+            // Authorization was successful. Now create the events.
+            createGoogleCalendarEvents();
+        } else {
+            // Authorization failed. Handle the error.
+            alert('Authorization failed. Please try again.');
+        }
+    }
+
+    function createGoogleCalendarEvents() {
+        gapi.client.load('calendar', 'v3', function () {
+            eventList.forEach(function (event) {
+                const request = gapi.client.calendar.events.insert({
+                    'calendarId': 'primary',  // 'primary' refers to the user's primary calendar
+                    'resource': {
+                        'summary': event.title,
+                        'description': 'Priority: ' + event.priority,
+                        'start': {
+                            'dateTime': new Date(event.deadline).toISOString(),
+                            'timeZone': 'UTC',
+                        },
+                        'end': {
+                            'dateTime': new Date(event.deadline).toISOString(),
+                            'timeZone': 'UTC',
+                        },
+                    }
+                });
+
+                request.execute(function (event) {
+                    // Handle the response after creating the event
+                    console.log('Event created: ' + event.summary);
+                });
+            });
+
+            // Clear the events list after submitting to Google Calendar
+            clearEvents();
+            displayEvents();
+            alert('Events submitted to Google Calendar.');
+        });
+    }
 
     function clearForm() {
         eventTitleInput.value = '';
@@ -62,12 +111,13 @@ document.addEventListener('DOMContentLoaded', function () {
             eventListDiv.appendChild(ul);
         }
     }
-    
+
     function clearEvents() {
         eventList.length = 0;
         displayEvents();
     }
 });
+
 document.getElementById('submit-events').addEventListener('click', function () {
     fetch('http://localhost:8000/add_event', {
         method: 'POST',

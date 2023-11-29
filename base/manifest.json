@@ -5,7 +5,9 @@
   "author": "Lakshya Gour",
   "description": "An extension that adds events to your google calendar from a priority to-do list so that you can finish all your items before the deadline",
   "permissions": [
-    ""
+    "storage",
+    "activeTab",
+    "https://www.googleapis.com/"
   ],
   "content_scripts": [
     {
@@ -22,8 +24,12 @@
       "background.js"
     ]
   },
+  "oauth2": {
+    "client_id": "19769659267-tfiqfr1hpu9l1jm4600i6nbimncelgr0.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/calendar"]
+  },
   "browser_action": {
-    "default_icon": "logo.png",
+    "default_icon": "ext-icon.png",
     "default_popup": "index.html",
     "default_title": "A tooltip popup description when you hover over the Chrome Extension icon."
   }
