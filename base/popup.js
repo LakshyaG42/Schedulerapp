@@ -1,5 +1,7 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     const eventList = [];
+
     const eventForm = document.getElementById('event-form');
     const eventTitleInput = document.getElementById('event-title');
     const eventDeadlineInput = document.getElementById('event-deadline');
@@ -23,25 +25,24 @@ document.addEventListener('DOMContentLoaded', function () {
             eventList.push(event);
             clearForm();
             displayEvents();
-            chrome.runtime.sendMessage({ type: 'add_event', event });
+            // You may choose to send this event data to background.js or another script
+            // chrome.runtime.sendMessage({ type: 'add_event', event });
         } else {
             alert('Please fill in all fields.');
         }
     });
 
-    submitEventsButton.addEventListener('click', function () {
-        handleAuthorization();
+    // Load Google Sign-In API
+    gapi.load('auth2', function () {
+        gapi.auth2.init({
+            client_id: '19769659267-tfiqfr1hpu9l1jm4600i6nbimncelgr0.apps.googleusercontent.com',
+        }).then(function (auth2) {
+            auth2.attachClickHandler(submitEventsButton, {}, handleAuthorization, handleAuthResult);
+        });
     });
 
     function handleAuthorization() {
-        gapi.auth.authorize(
-            {
-                'client_id': '19769659267-tfiqfr1hpu9l1jm4600i6nbimncelgr0.apps.googleusercontent.com',
-                'scope': 'https://www.googleapis.com/auth/calendar',
-                'immediate': false
-            },
-            handleAuthResult
-        );
+        gapi.auth2.getAuthInstance().signIn();
     }
 
     function handleAuthResult(authResult) {
@@ -113,17 +114,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function clearEvents() {
         eventList.length = 0;
-        displayEvents();
     }
 });
 
 document.getElementById('submit-events').addEventListener('click', function () {
+    // Assuming you have an appropriate way to gather eventData for this button click
+    const eventData = { /* ... */ };
+
     fetch('http://localhost:8000/add_event', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(eventData), // Replace with your event data
+        body: JSON.stringify(eventData),
     })
     .then(response => {
         if (response.ok) {

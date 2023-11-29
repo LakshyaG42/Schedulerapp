@@ -7,7 +7,8 @@
   "permissions": [
     "storage",
     "activeTab",
-    "https://www.googleapis.com/"
+    "https://www.googleapis.com/",
+    "identity"
   ],
   "content_scripts": [
     {
@@ -28,6 +29,7 @@
     "client_id": "19769659267-tfiqfr1hpu9l1jm4600i6nbimncelgr0.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/calendar"]
   },
+  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
   "browser_action": {
     "default_icon": "ext-icon.png",
     "default_popup": "index.html",
